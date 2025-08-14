@@ -1,7 +1,3 @@
-# srcs/docker-compose.yml
-version: '3.8'
-
-
 services:
   mariadb:
     build:
@@ -16,9 +12,6 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - inception
-    secrets:
-      - db_root_password
-      - db_password
 
   wordpress:
     build:
@@ -72,9 +65,3 @@ volumes:
 networks:
   inception:
     driver: bridge
-  
-secrets:
-  db_root_password:
-    file: ../secrets/db_root_password.txt
-  db_password:
-    file: ../secrets/db_password.txt

@@ -1,11 +1,16 @@
-FROM debian:bullseye
-RUN apt-get update && apt-get install -y \
+FROM alpine:3.20
+
+RUN apk update \
+    && apk add --no-cache \
     nginx \
     openssl \
-    && rm -rf /var/lib/apt/lists/*
-COPY conf/nginx.conf /etc/nginx/nginx.conf
-COPY tools/nginx_setup.sh /usr/local/bin/nginx_setup.sh
-RUN chmod +x /usr/local/bin/nginx_setup.sh
-EXPOSE 443
-ENTRYPOINT ["/usr/local/bin/nginx_setup.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+    && mkdir -p /var/www/html/ \
+    && rm /var/cache/apk/* 
+
+COPY /tools/script.sh /
+COPY /conf /etc/nginx
+
+RUN chmod 777 /script.sh
+
+ENTRYPOINT [ "/script.sh" ]
+CMD [ "nginx", "-g", "daemon off;"]
