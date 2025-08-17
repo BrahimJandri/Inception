@@ -1,9 +1,24 @@
-FROM alpine:3.20
+FROM debian:bullseye
 
-RUN apk update && apk upgrade && apk add mariadb mariadb-client
+# Install MariaDB server
+RUN apt-get update && apt-get install -y \
+    mariadb-server \
+    mariadb-client \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY tools/script.sh /script.sh
+# Copy configuration files
+COPY conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY tools/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-RUN chmod +x /script.sh
+# Create necessary directories and set permissions
+RUN mkdir -p /var/run/mysqld \
+    && chown -R mysql:mysql /var/run/mysqld \
+    && chmod 755 /var/run/mysqld
 
-ENTRYPOINT ["/script.sh"]
+# Expose MySQL port
+EXPOSE 3306
+
+# Set the entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["mysqld"]

@@ -1,0 +1,25 @@
+[mysqld]
+bind-address = 0.0.0.0
+port = 3306
+datadir = /var/lib/mysql
+socket = /var/run/mysqld/mysqld.sock
+pid-file = /var/run/mysqld/mysqld.pid
+
+# Security and performance
+skip-networking = false
+max_connections = 100
+innodb_buffer_pool_size = 128M
+
+# Character set
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+# Logging
+general_log = 0
+slow_query_log = 0
+
+[mysql]
+default-character-set = utf8mb4
+
+[client]
+default-character-set = utf8mb4

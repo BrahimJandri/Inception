@@ -1,53 +1,65 @@
 # Variables
-DOCKER_COMPOSE_CMD := docker compose
-DATA_DIR := /home/$(USER)/data
-WORDPRESS_DIR := $(DATA_DIR)/wordpress
-MARIADB_DIR := $(DATA_DIR)/mariadb
-COMPOSE_FILE := srcs/docker-compose.yml
-
-# Hide command output by default
-.SILENT:
+COMPOSE_FILE = srcs/docker-compose.yml
+ENV_FILE = srcs/.env
 
 # Default target
-all: up
+all: build up
 
-# Create data directories and start containers
-up:
-	@mkdir -p $(WORDPRESS_DIR) $(MARIADB_DIR)
-	@$(DOCKER_COMPOSE_CMD) -f $(COMPOSE_FILE) up -d --build
+# Create data directories
+setup:
+	@echo "Setting up data directories..."
+	@mkdir -p $(shell grep MYSQL_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
+	@mkdir -p $(shell grep WP_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
 
-# Stop containers
+# Build all images
+build: setup
+	@echo "Building Docker images..."
+	docker-compose -f $(COMPOSE_FILE) build
+
+# Start all services
+up: build
+	@echo "Starting services..."
+	docker-compose -f $(COMPOSE_FILE) up -d
+
+# Stop all services
 down:
-	@$(DOCKER_COMPOSE_CMD) -f $(COMPOSE_FILE) down
+	@echo "Stopping services..."
+	docker-compose -f $(COMPOSE_FILE) down
 
-# Stop containers without removing
-stop:
-	@$(DOCKER_COMPOSE_CMD) -f $(COMPOSE_FILE) stop
+# Restart all services
+restart: down up
 
-# Start stopped containers
-start:
-	@$(DOCKER_COMPOSE_CMD) -f $(COMPOSE_FILE) start
-
-# Show container logs
+# View logs
 logs:
-	@$(DOCKER_COMPOSE_CMD) -f $(COMPOSE_FILE) logs -f --tail=50
+	docker-compose -f $(COMPOSE_FILE) logs -f
 
-# Show status of containers
-status:
-	@$(DOCKER_COMPOSE_CMD) -f $(COMPOSE_FILE) ps
-
-# Clean Docker resources
+# Clean everything
 clean: down
-	@$(DOCKER_COMPOSE_CMD) -f $(COMPOSE_FILE) rm -f
-	@docker system prune -af
-	@docker volume prune -f
+	@echo "Cleaning up..."
+	docker-compose -f $(COMPOSE_FILE) down -v --rmi all
+	docker system prune -af
 
-# Remove data directories
+# Remove volumes and data
 fclean: clean
-	@sudo rm -rf $(DATA_DIR)
+	@echo "Removing data directories..."
+	sudo rm -rf $(shell grep MYSQL_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
+	sudo rm -rf $(shell grep WP_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
 
-# Rebuild everything from scratch
+# Recreate everything
 re: fclean all
 
-# Declare phony targets
-.PHONY: all up down stop start logs status clean fclean re
+# Show status
+status:
+	docker-compose -f $(COMPOSE_FILE) ps
+
+# Enter containers
+exec-mariadb:
+	docker exec -it mariadb /bin/bash
+
+exec-wordpress:
+	docker exec -it wordpress /bin/bash
+
+exec-nginx:
+	docker exec -it nginx /bin/bash
+
+.PHONY: all setup build up down restart logs clean fclean re status exec-mariadb exec-wordpress exec-nginx

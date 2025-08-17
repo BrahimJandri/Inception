@@ -1,25 +1,50 @@
-FROM alpine:3.20
+FROM debian:bullseye
 
-RUN apk update && apk add --no-cache \
-    php83 \
-    php83-fpm \
-    php83-mysqli \
-    php83-xml \
-    php83-mbstring \
-    php83-phar \
-    php83-opcache \
-    php83-json \
-    php83-session \
+# Install PHP-FPM 8.3 and required extensions
+RUN apt-get update && apt-get install -y \
+    lsb-release apt-transport-https ca-certificates wget gnupg \
+    && wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - \
+    && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list \
+    && apt-get update && apt-get install -y \
+    php8.3-fpm \
+    php8.3-mysql \
+    php8.3-curl \
+    php8.3-gd \
+    php8.3-intl \
+    php8.3-mbstring \
+    php8.3-soap \
+    php8.3-xml \
+    php8.3-xmlrpc \
+    php8.3-zip \
+    curl \
     wget \
     unzip \
-    netcat-openbsd
+    netcat \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/www/html
+# Download and install WP-CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
 
-COPY tools/script.sh /script.sh
+# Copy configuration files
+COPY conf/www.conf /etc/php/8.3/fpm/pool.d/www.conf
+COPY tools/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-RUN chmod +x /script.sh
+# Create WordPress directory
+RUN mkdir -p /var/www/html \
+    && chown -R www-data:www-data /var/www/html
 
+# Create PHP-FPM run directory
+RUN mkdir -p /run/php \
+    && chown www-data:www-data /run/php
+
+# Expose PHP-FPM port
 EXPOSE 9000
 
-ENTRYPOINT ["/script.sh"]
+WORKDIR /var/www/html
+
+# Set the entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm8.3", "-F"]
