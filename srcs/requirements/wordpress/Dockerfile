@@ -1,4 +1,3 @@
-# srcs/requirements/wordpress/Dockerfile
 FROM debian:bullseye
 
 # Install PHP-FPM 8.3 and required extensions including Redis

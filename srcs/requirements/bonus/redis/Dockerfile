@@ -1,4 +1,3 @@
-# srcs/requirements/bonus/redis/Dockerfile
 FROM debian:bullseye
 
 # Install Redis

@@ -1,4 +1,3 @@
-# srcs/requirements/bonus/adminer/Dockerfile
 FROM debian:bullseye
 
 # Install PHP-FPM and required extensions

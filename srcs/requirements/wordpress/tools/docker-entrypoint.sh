@@ -1,5 +1,4 @@
 #!/bin/bash
-# srcs/requirements/wordpress/tools/docker-entrypoint.sh
 set -e
 
 # Wait for MariaDB to be ready
