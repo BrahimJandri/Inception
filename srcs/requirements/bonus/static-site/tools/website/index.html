@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bjandri - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+        
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .skill {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .contact {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-link {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="profile-img">👨‍💻</div>
+            <h1>Bjandri</h1>
+            <p class="subtitle">42 Student & System Administrator</p>
+        </header>
+        
+        <main>
+            <div class="cards">
+                <div class="card">
+                    <h3>About Me</h3>
+                    <p>I'm a passionate student at 42 School, specializing in system administration and DevOps. I love working with Docker, containerization, and building robust infrastructure solutions.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Current Project</h3>
+                    <p>Working on the Inception project, where I'm building a complete infrastructure using Docker containers, including WordPress, MariaDB, Nginx, and various bonus services.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Skills</h3>
+                    <div class="skills">
+                        <span class="skill">Docker</span>
+                        <span class="skill">Linux</span>
+                        <span class="skill">Nginx</span>
+                        <span class="skill">MariaDB</span>
+                        <span class="skill">WordPress</span>
+                        <span class="skill">PHP</span>
+                        <span class="skill">System Admin</span>
+                        <span class="skill">DevOps</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Goals</h3>
+                    <p>To become proficient in cloud infrastructure, container orchestration, and modern DevOps practices. Always learning and exploring new technologies.</p>
+                </div>
+            </div>
+            
+            <div class="contact">
+                <h3 style="color: white; margin-bottom: 1rem;">Get In Touch</h3>
+                <div class="contact-links">
+                    <a href="mailto:bjandri@student.42.fr" class="contact-link">Email</a>
+                    <a href="#" class="contact-link">Portfolio</a>
+                    <a href="#" class="contact-link">Projects</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
