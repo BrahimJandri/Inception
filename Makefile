@@ -58,6 +58,9 @@ clean: down
 
 # Remove volumes and data
 fclean: clean
+	@echo "Removing volumes and data..."
+	rm -rf $(shell grep MYSQL_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
+	rm -rf $(shell grep WP_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
 
 # Recreate everything
 re: fclean all
