@@ -9,6 +9,12 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash ftpuser \
     && echo "ftpuser:ftppassword123" | chpasswd
 
+# Fix ownership and permissions for ftpuser home and uploads
+RUN mkdir -p /home/ftpuser/uploads \
+    && chown -R ftpuser:ftpuser /home/ftpuser \
+    && chmod 755 /home/ftpuser \
+    && chmod 755 /home/ftpuser/uploads
+
 # Create necessary directories
 RUN mkdir -p /var/run/vsftpd/empty \
     && mkdir -p /var/log \

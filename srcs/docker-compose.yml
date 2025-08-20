@@ -3,7 +3,7 @@ services:
   mariadb:
     build: requirements/mariadb
     container_name: mariadb
-    restart: unless-stopped
+    restart: always
     env_file: .env
     volumes:
       - mariadb_data:/var/lib/mysql
@@ -18,7 +18,7 @@ services:
   wordpress:
     build: requirements/wordpress
     container_name: wordpress
-    restart: unless-stopped
+    restart: always
     env_file: .env
     volumes:
       - wordpress_data:/var/www/html
@@ -43,7 +43,7 @@ services:
   nginx:
     build: requirements/nginx
     container_name: nginx
-    restart: unless-stopped
+    restart: always
     env_file: .env
     ports:
       - "443:443"
@@ -61,7 +61,7 @@ services:
   redis:
     build: requirements/bonus/redis
     container_name: redis
-    restart: unless-stopped
+    restart: always
     networks:
       - inception
     environment:
@@ -70,7 +70,7 @@ services:
   ftp:
     build: requirements/bonus/ftp
     container_name: ftp
-    restart: unless-stopped
+    restart: always
     ports:
       - "21:21"
       - "21000-21010:21000-21010"
@@ -85,7 +85,9 @@ services:
   adminer:
     build: requirements/bonus/adminer
     container_name: adminer
-    restart: unless-stopped
+    restart: always
+    ports:
+      - "9001:9001"
     networks:
       - inception
     depends_on:
@@ -94,16 +96,16 @@ services:
   static-site:
     build: requirements/bonus/static-site
     container_name: static-site
-    restart: unless-stopped
+    restart: always
     networks:
       - inception
 
   portainer:
     build: requirements/bonus/portainer
     container_name: portainer
-    restart: unless-stopped
+    restart: always
     ports:
-      - "9443:9000"   # external:internal
+      - "9443:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -125,7 +127,12 @@ volumes:
       type: none
       o: bind
       device: ${WP_DATA_PATH}
-  portainer_data:   # <-- no driver_opts here, Docker will handle it
+  portainer_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PR_DATA_PATH}
 
 networks:
   inception:
