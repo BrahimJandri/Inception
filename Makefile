@@ -11,6 +11,7 @@ setup:
 	@echo "Setting up data directories..."
 	@mkdir -p $(shell grep MYSQL_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
 	@mkdir -p $(shell grep WP_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
+	@mkdir -p $(shell grep PR_DATA_PATH $(ENV_FILE) | cut -d'=' -f2) 
 
 # Build all images (including bonus)
 build: setup
@@ -61,6 +62,7 @@ fclean: clean
 	@echo "Removing volumes and data..."
 	rm -rf $(shell grep MYSQL_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
 	rm -rf $(shell grep WP_DATA_PATH $(ENV_FILE) | cut -d'=' -f2)
+	rm -rf $(shell grep PR_DATA_PATH $(ENV_FILE) | cut -d'=' -f2) 
 
 # Recreate everything
 re: fclean all
