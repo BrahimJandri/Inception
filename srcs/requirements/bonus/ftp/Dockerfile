@@ -9,11 +9,11 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash ftpuser \
     && echo "ftpuser:ftppassword123" | chpasswd
 
-# Fix ownership and permissions for ftpuser home and uploads
-RUN mkdir -p /home/ftpuser/uploads \
-    && chown -R ftpuser:ftpuser /home/ftpuser \
-    && chmod 755 /home/ftpuser \
-    && chmod 755 /home/ftpuser/uploads
+# Point FTP user to WordPress volume
+RUN usermod -d /var/www/html ftpuser \
+    && mkdir -p /var/www/html/uploads \
+    && chown -R ftpuser:ftpuser /var/www/html \
+    && chmod -R 755 /var/www/html
 
 # Create necessary directories
 RUN mkdir -p /var/run/vsftpd/empty \
