@@ -16,9 +16,6 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN rm -f /etc/nginx/sites-enabled/default \
     && ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 
-# Expose HTTP port (matches Nginx config)
-EXPOSE 8091
-
 # Set entrypoint and default command
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
