@@ -1,5 +1,4 @@
 # Makefile
-# Variables
 COMPOSE_FILE = srcs/docker-compose.yml
 ENV_FILE = srcs/.env
 
@@ -16,22 +15,22 @@ setup:
 # Build all images (including bonus)
 build: setup
 	@echo "Building Docker images..."
-	docker-compose -f $(COMPOSE_FILE) build
+	docker-compose -f $(COMPOSE_FILE) build > /dev/null 2>&1
 
 # Start all services (including bonus)
 up: build
 	@echo "Starting services..."
-	docker-compose -f $(COMPOSE_FILE) up -d
+	docker-compose -f $(COMPOSE_FILE) up -d > /dev/null 2>&1
 
 # Start only mandatory services
 up-mandatory: build
 	@echo "Starting mandatory services only..."
-	docker-compose -f $(COMPOSE_FILE) up -d mariadb wordpress nginx
+	docker-compose -f $(COMPOSE_FILE) up -d mariadb wordpress nginx > /dev/null 2>&1
 
 # Start bonus services
 up-bonus:
 	@echo "Starting bonus services..."
-	docker-compose -f $(COMPOSE_FILE) up -d redis ftp adminer static-site portainer
+	docker-compose -f $(COMPOSE_FILE) up -d redis ftp adminer static-site portainer > /dev/null 2>&1
 
 # Stop all services
 down:
@@ -71,38 +70,12 @@ re: fclean all
 status:
 	docker-compose -f $(COMPOSE_FILE) ps
 
-# Enter containers
-exec-mariadb:
-	docker exec -it mariadb /bin/bash
-
-exec-wordpress:
-	docker exec -it wordpress /bin/bash
-
-exec-nginx:
-	docker exec -it nginx /bin/bash
-
-exec-redis:
-	docker exec -it redis /bin/bash
-
-exec-ftp:
-	docker exec -it ftp /bin/bash
-
-exec-adminer:
-	docker exec -it adminer /bin/bash
-
-exec-static:
-	docker exec -it static-site /bin/bash
-
-exec-portainer:
-	docker exec -it portainer /bin/sh
-
 # Test services
 test:
 	@echo "Testing services..."
 	@echo "WordPress: https://bjandri.42.fr"
 	@echo "Adminer: https://bjandri.42.fr/adminer/"
 	@echo "Portfolio: https://bjandri.42.fr/portfolio/"
-	@echo "Portainer: https://bjandri.42.fr/portainer/ or https://bjandri.42.fr:9443"
-	@echo "FTP: ftp://bjandri.42.fr:21"
+	@echo "Portainer: https://bjandri.42.fr:9443"
 
-.PHONY: all setup build up up-mandatory up-bonus down restart logs logs-service clean fclean re status test exec-mariadb exec-wordpress exec-nginx exec-redis exec-ftp exec-adminer exec-static exec-portainer
+.PHONY: all setup build up up-mandatory up-bonus down restart logs logs-service clean fclean re status test
