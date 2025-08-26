@@ -3,37 +3,48 @@ set -e
 
 echo "Setting up FTP server..."
 
-# Create ftpuser in userlist
-echo "ftpuser" > /etc/vsftpd.userlist
+# Read FTP credentials from env (fall back if missing)
+FTP_USER=${FTP_USER:-ftpuser}
+FTP_PASSWORD=${FTP_PASSWORD:-$(openssl rand -base64 12)}
 
-# Create log files with proper permissions
+# Create ftpuser if not exists
+if ! id "$FTP_USER" &>/dev/null; then
+    useradd -m -s /bin/bash "$FTP_USER"
+fi
+
+# Set password
+echo "$FTP_USER:$FTP_PASSWORD" | chpasswd
+
+# Add to vsftpd userlist
+echo "$FTP_USER" > /etc/vsftpd.userlist
+
+# Create log file
 touch /var/log/vsftpd.log
 chown root:root /var/log/vsftpd.log
 
-# Ensure the secure chroot directory exists
+# Ensure chroot directory exists
 mkdir -p /var/run/vsftpd/empty
 
-# Wait for WordPress volume to be ready
+# Wait for WordPress volume
 echo "Waiting for WordPress files to be available..."
 while [ ! -d /var/www/html ]; do
     echo "WordPress directory not ready, waiting..."
     sleep 2
 done
 
-# Set up FTP user home directory
+# Set permissions
 echo "Setting up FTP user permissions..."
-usermod -d /var/www/html ftpuser 2>/dev/null || true
-chown -R ftpuser:ftpuser /var/www/html
+usermod -d /var/www/html "$FTP_USER" || true
+chown -R "$FTP_USER:$FTP_USER" /var/www/html
 chmod -R 755 /var/www/html
 
 echo "FTP server setup completed!"
 echo "FTP credentials:"
-echo "  Server: localhost or bjandri.42.fr"
+echo "  Server: ${DOMAIN_NAME:-localhost}"
 echo "  Port: 21"
-echo "  Username: ftpuser" 
-echo "  Password: ftppassword123"
+echo "  Username: $FTP_USER"
+echo "  Password: $FTP_PASSWORD"
 echo "  Passive ports: 21000-21010"
 
 echo "Starting FTP server in foreground mode..."
-# Run vsftpd in foreground mode to prevent container exit
 exec vsftpd /etc/vsftpd.conf
