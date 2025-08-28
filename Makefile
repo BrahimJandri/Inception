@@ -15,22 +15,22 @@ setup:
 # Build all images (including bonus)
 build: setup
 	@echo "Building Docker images..."
-	docker-compose -f $(COMPOSE_FILE) build > /dev/null 2>&1
+	docker-compose -f $(COMPOSE_FILE) build
 
 # Start all services (including bonus)
 up: build
 	@echo "Starting services..."
-	docker-compose -f $(COMPOSE_FILE) up -d > /dev/null 2>&1
+	docker-compose -f $(COMPOSE_FILE) up -d
 
 # Start only mandatory services
 up-mandatory: build
 	@echo "Starting mandatory services only..."
-	docker-compose -f $(COMPOSE_FILE) up -d mariadb wordpress nginx > /dev/null 2>&1
+	docker-compose -f $(COMPOSE_FILE) up -d mariadb wordpress nginx 
 
 # Start bonus services
 up-bonus:
 	@echo "Starting bonus services..."
-	docker-compose -f $(COMPOSE_FILE) up -d redis ftp adminer static-site portainer > /dev/null 2>&1
+	docker-compose -f $(COMPOSE_FILE) up -d redis ftp adminer static-site portainer
 
 # Stop all services
 down:
@@ -76,6 +76,6 @@ test:
 	@echo "WordPress: https://bjandri.42.fr"
 	@echo "Adminer: https://bjandri.42.fr/adminer/"
 	@echo "Portfolio: https://bjandri.42.fr/portfolio/"
-	@echo "Portainer: https://bjandri.42.fr:9443"
+	@echo "Portainer: http://localhost:9443"
 
 .PHONY: all setup build up up-mandatory up-bonus down restart logs logs-service clean fclean re status test

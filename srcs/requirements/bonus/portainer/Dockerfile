@@ -16,8 +16,8 @@ RUN curl -L https://github.com/portainer/portainer/releases/download/2.11.1/port
 EXPOSE 9000
 
 # Copy entrypoint script
-COPY tools/docker-entrypoint.sh /exe.sh
-RUN chmod +x /exe.sh
+COPY tools/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 # Run Portainer
-CMD ["/exe.sh"]
+CMD ["/docker-entrypoint.sh"]
