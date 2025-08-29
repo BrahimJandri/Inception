@@ -1,23 +1,13 @@
 FROM debian:bullseye
 
-# Install curl and certificates
-RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && \
+    apt-get install -y curl
 
-# Download and extract Portainer
-RUN curl -L https://github.com/portainer/portainer/releases/download/2.11.1/portainer-2.11.1-linux-amd64.tar.gz \
-    -o portainer.tar.gz \
-    && tar -xzf portainer.tar.gz \
-    && rm portainer.tar.gz
+RUN curl -L https://github.com/portainer/portainer/releases/download/2.11.1/portainer-2.11.1-linux-amd64.tar.gz -o portainer.tar.gz && \
+    tar xvzf portainer.tar.gz && \
+    mv portainer /usr/local/bin/ && \
+    rm portainer.tar.gz
 
-# Expose Portainer UI port
 EXPOSE 9000
 
-# Copy entrypoint script
-COPY tools/docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-
-# Run Portainer
-CMD ["/docker-entrypoint.sh"]
+CMD [ "/usr/local/bin/portainer/portainer", "--no-analytics" ] 
