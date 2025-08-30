@@ -39,12 +39,5 @@ chown -R "$FTP_USER:$FTP_USER" /var/www/html
 chmod -R 755 /var/www/html
 
 echo "FTP server setup completed!"
-echo "FTP credentials:"
-echo "  Server: ${DOMAIN_NAME:-localhost}"
-echo "  Port: 21"
-echo "  Username: $FTP_USER"
-echo "  Password: $FTP_PASSWORD"
-echo "  Passive ports: 21000-21010"
-
 echo "Starting FTP server in foreground mode..."
 exec vsftpd /etc/vsftpd.conf
