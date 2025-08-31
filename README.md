@@ -40,14 +40,15 @@ Make sure you have the following installed:
 
 
 ### Project Structure
-
-inception/\n
-│── conf/\n
-│── tools/\n
-│── srcs/\n
-│── docker-compose.yml\n
-│── README.md\n
-│── LICENSE\n
+```
+inception/
+│── conf/
+│── tools/
+│── srcs/
+│── docker-compose.yml
+│── README.md
+│── LICENSE
+```
 
 ### Installation
 Clone the repository:
