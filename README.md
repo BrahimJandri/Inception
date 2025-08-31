@@ -43,3 +43,13 @@ Clone the repository:
 ```bash
 git clone https://github.com/your-username/inception.git
 cd inception
+
+### Project Structure
+
+inception/
+│── conf/
+│── tools/
+│── srcs/
+│── docker-compose.yml
+│── README.md
+│── LICENSE 
