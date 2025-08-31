@@ -21,7 +21,7 @@ Built with the tools and technologies:
   - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
-- [License](#license)
+- [License](https://github.com/BrahimJandri/Inception/blob/main/License)
 
 ---
 
