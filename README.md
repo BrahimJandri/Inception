@@ -41,7 +41,7 @@ Make sure you have the following installed:
 ### Installation
 Clone the repository:
 ```bash
-git clone https://github.com/your-username/inception.git
+git clone https://github.com/BrahimJandri/inception.git
 cd inception
 ```
 
