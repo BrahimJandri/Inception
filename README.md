@@ -38,6 +38,12 @@ Make sure you have the following installed:
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/)
 
+### Installation
+Clone the repository:
+```bash
+git clone https://github.com/your-username/inception.git
+cd inception
+```
 
 ### Project Structure
 ```
@@ -49,10 +55,4 @@ inception/
 │── README.md
 │── LICENSE
 ```
-
-### Installation
-Clone the repository:
-```bash
-git clone https://github.com/your-username/inception.git
-cd inception
 
