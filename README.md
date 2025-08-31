@@ -2,7 +2,7 @@
 
 Transforming Ideas into Seamless Digital Realities
 
-![last commit](https://img.shields.io/badge/last%20commit-yesterday-blue?style=for-the-badge)
+![last commit](https://img.shields.io/badge/last%20commit-today-blue?style=for-the-badge)
 ![html](https://img.shields.io/badge/html-55.9%25-orange?style=for-the-badge)
 ![languages](https://img.shields.io/badge/languages-4-blue?style=for-the-badge)
 
