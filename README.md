@@ -41,13 +41,13 @@ Make sure you have the following installed:
 
 ### Project Structure
 
-inception/
-│── conf/
-│── tools/
-│── srcs/
-│── docker-compose.yml
-│── README.md
-│── LICENSE 
+inception/\n
+│── conf/\n
+│── tools/\n
+│── srcs/\n
+│── docker-compose.yml\n
+│── README.md\n
+│── LICENSE\n
 
 ### Installation
 Clone the repository:
