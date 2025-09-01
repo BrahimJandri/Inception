@@ -22,16 +22,6 @@ up: build
 	@echo "Starting services..."
 	docker-compose -f $(COMPOSE_FILE) up -d
 
-# Start only mandatory services
-up-mandatory: build
-	@echo "Starting mandatory services only..."
-	docker-compose -f $(COMPOSE_FILE) up -d mariadb wordpress nginx 
-
-# Start bonus services
-up-bonus:
-	@echo "Starting bonus services..."
-	docker-compose -f $(COMPOSE_FILE) up -d redis ftp adminer static-site portainer
-
 # Stop all services
 down:
 	@echo "Stopping services..."
@@ -43,12 +33,6 @@ restart: down up
 # View logs
 logs:
 	docker-compose -f $(COMPOSE_FILE) logs -f
-
-# View logs for specific service
-logs-service:
-	@echo "Usage: make logs-service SERVICE=<service_name>"
-	@echo "Available services: mariadb, wordpress, nginx, redis, ftp, adminer, static-site, portainer"
-	docker-compose -f $(COMPOSE_FILE) logs -f $(SERVICE)
 
 # Clean everything
 clean: down
@@ -78,4 +62,4 @@ test:
 	@echo "Portfolio: https://bjandri.42.fr/portfolio/"
 	@echo "Portainer: http://localhost:9443"
 
-.PHONY: all setup build up up-mandatory up-bonus down restart logs logs-service clean fclean re status test
+.PHONY: all setup build up down restart logs clean fclean re status test

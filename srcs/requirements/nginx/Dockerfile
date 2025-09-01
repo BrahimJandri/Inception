@@ -18,8 +18,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 # Copy configuration files
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/sites-available/default
-COPY tools/docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Remove default site and create symlink
 RUN rm -f /etc/nginx/sites-enabled/default
@@ -31,6 +29,4 @@ RUN mkdir -p /var/log/nginx /var/lib/nginx /run/nginx
 # Expose HTTPS port
 EXPOSE 443
 
-# Set the entrypoint
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
