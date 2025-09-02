@@ -10,4 +10,4 @@ RUN curl -L https://github.com/portainer/portainer/releases/download/2.11.1/port
 
 EXPOSE 9000
 
-CMD [ "/usr/local/bin/portainer/portainer", "--no-analytics" ] 
+CMD [ "/usr/local/bin/portainer/portainer", "--no-analytics" ]
